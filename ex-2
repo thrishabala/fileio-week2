@@ -1,0 +1,58 @@
+#LogWriter.java
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class LogWriter {
+    public void writeLog(String fileName, String logMessage) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+            writer.write(logMessage);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+#LogReader.java
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class LogReader {
+    public void readLogs(String fileName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+#LogApp.java
+
+public class LogApp {
+    public static void main(String[] args) {
+        LogWriter logWriter = new LogWriter();
+        LogReader logReader = new LogReader();
+
+        String fileName = "logs.txt";
+
+        logWriter.writeLog(fileName, "Log entry 1");
+        logWriter.writeLog(fileName, "Log entry 2");
+
+        System.out.println("Reading log entries:");
+        logReader.readLogs(fileName);
+
+        // Demonstrating error handling by attempting to read from a non-existent file
+        logReader.readLogs("non_existent_file.txt");
+    }
+}
