@@ -1,0 +1,60 @@
+#FileCopy.java
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class FileCopy {
+    public void copyFile(Path source, Path target) {
+        try {
+            Files.copy(source, target);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+#DirectoryCopy.java
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+
+public class DirectoryCopy {
+    public void copyDirectory(Path sourceDir, Path targetDir) {
+        try {
+            Files.walk(sourceDir).forEach(source -> {
+                Path target = targetDir.resolve(sourceDir.relativize(source));
+                try {
+                    Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+#BackupApp.java
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
+
+public class BackupApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        DirectoryCopy directoryCopy = new DirectoryCopy();
+
+        System.out.println("Enter source directory path:");
+        String sourceDirPath = scanner.nextLine();
+        System.out.println("Enter target directory path:");
+        String targetDirPath = scanner.nextLine();
+
+        Path sourceDir = Paths.get(sourceDirPath);
+        Path targetDir = Paths.get(targetDirPath);
+
+        directoryCopy.copyDirectory
