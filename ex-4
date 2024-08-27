@@ -1,0 +1,65 @@
+#LargeFileReader.java
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class LargeFileReader {
+    public void readLargeFile(String inputFileName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Process each line (e.g., parse and print sales records)
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+#LargeFileWriter.java
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+
+public class LargeFileWriter {
+    public void writeProcessedData(String outputFileName, List<String> processedData) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFileName))) {
+            for (String data : processedData) {
+                writer.write(data);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+#FileProcessorApp.java
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class FileProcessorApp {
+    public static void main(String[] args) {
+        LargeFileReader fileReader = new LargeFileReader();
+        LargeFileWriter fileWriter = new LargeFileWriter();
+
+        String inputFileName = "large_sales_data.txt";
+        String outputFileName = "processed_sales_data.txt";
+
+        System.out.println("Reading large sales data file:");
+        fileReader.readLargeFile(inputFileName);
+
+        // Simulate processing data
+        List<String> processedData = new ArrayList<>();
+        processedData.add("Processed sales record 1");
+        processedData.add("Processed sales record 2");
+
+        System.out.println("Writing processed data to a new file:");
+        fileWriter.writeProcessedData(outputFileName, processedData);
+    }
+}
