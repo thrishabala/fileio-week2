@@ -1,0 +1,57 @@
+#FileWriterDemo.java
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class FileWriterDemo {
+    public void saveNoteToFile(String fileName, String note) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write(note);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+#FileReaderDemo.java
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class FileReaderDemo {
+    public void readNoteFromFile(String fileName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+#NoteApp.java
+
+import java.util.Scanner;
+
+public class NoteApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        FileWriterDemo fileWriter = new FileWriterDemo();
+        FileReaderDemo fileReader = new FileReaderDemo();
+
+        System.out.println("Enter a note:");
+        String note = scanner.nextLine();
+
+        String fileName = "notes.txt";
+        fileWriter.saveNoteToFile(fileName, note);
+
+        System.out.println("Reading the note back from the file:");
+        fileReader.readNoteFromFile(fileName);
+
+        scanner.close();
+    }
+}
