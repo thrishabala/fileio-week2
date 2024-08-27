@@ -1,0 +1,100 @@
+#Contact.java
+
+import java.io.Serializable;
+
+public class Contact implements Serializable {
+    private String name;
+    private String phone;
+    private String email;
+
+    public Contact(String name, String phone, String email) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+}
+
+#Contactwriter.java
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+public class ContactWriter {
+    public void saveContact(String fileName, Contact contact) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(contact);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+#Contactreadder.java
+
+#Contactreader.javaimport java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+public class ContactReader {
+    public Contact readContact(String fileName) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            return (Contact) ois.readObject();import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+public class ContactReader {
+    public Contact readContact(String fileName) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            return (Contact) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+
+#ContactApp.java
+
+public class ContactApp {
+    public static void main(String[] args) {
+        Contact contact = new Contact("John Doe", "1234567890", "john@example.com");
+        ContactWriter contactWriter = new ContactWriter();
+        ContactReader contactReader = new ContactReader();
+
+        String fileName = "contact.ser";
+        contactWriter.saveContact(fileName, contact);
+
+        System.out.println("Reading contact back from the file:");
+        Contact retrievedContact = contactReader.readContact(fileName);
+        if (retrievedContact != null) {
+            System.out.println("Name: " + retrievedContact.getName());
+            System.out.println("Phone: " + retrievedContact.getPhone());
+            System.out.println("Email: " + retrievedContact.getEmail());
+        }
+    }
+}
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+
+
+
+
